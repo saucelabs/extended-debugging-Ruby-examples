@@ -7,7 +7,8 @@ Given(/^I am on the Product Page$/) do
 end
 
 When(/^I log in with valid credentials$/) do
-  @browser.text_field(data_test: 'username').set 'standard_user'
+  username = ENV['PERF_USERNAME'] ||= 'standard_user'
+  @browser.text_field(data_test: 'username').set username
   @browser.text_field(data_test: 'password').set 'secret_sauce'
   @browser.button(type: 'submit').click
 end
