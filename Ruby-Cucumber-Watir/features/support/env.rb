@@ -23,7 +23,7 @@ Before do |scenario|
     elsif ENV['BUILD_TAG']
       ENV['BUILD_TAG']
     else
-      "Local Execution - #{Time.now.to_i}"
+      "Sauce Performance - #{Time.now.to_i}"
     end
   end
 
