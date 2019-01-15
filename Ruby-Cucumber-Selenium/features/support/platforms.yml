@@ -7,7 +7,7 @@ windows_8_chrome:
   selenium_version: '3.4.0'
   platform: Windows 8
   browser_name: chrome
-  version: '10.0'
+  version: 'latest'
 mac_sierra_chrome:
   selenium_version: '3.4.0'
   platform: macOS 10.12
