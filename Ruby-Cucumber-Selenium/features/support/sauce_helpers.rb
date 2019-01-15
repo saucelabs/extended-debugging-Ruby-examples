@@ -5,7 +5,8 @@ module SauceHelpers
     opt = {name: name,
            build: build_name,
            username: ENV['SAUCE_USERNAME'],
-           accessKey: ENV['SAUCE_ACCESS_KEY']}
+           accessKey: ENV['SAUCE_ACCESS_KEY'],
+           extended_debugging: true}
 
     opt.merge! YAML.safe_load(IO.read('features/support/platforms.yml'))[platform]
 

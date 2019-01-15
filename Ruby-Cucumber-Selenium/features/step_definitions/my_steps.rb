@@ -1,23 +1,20 @@
-Given(/^I am on the Product Page$/) do
-  @driver.get 'http://www.saucedemo.com/inventory.html'
-end
-
-When(/^I add (.*) items$/) do |number|
-  number.to_i.times { @driver.find_element(class: 'add-to-cart-button').click }
-end
-
-Then(/^I should see (.*) items? in the cart$/) do |number|
-  expect(@driver.find_element(class: 'shopping_cart_badge').text).to eq number
-  @driver.get "https://www.saucedemo.com/cart.html"
-  expect(@driver.find_elements(class: 'inventory_item_name').size).to eq number.to_i
-end
-
 Given(/^I am on the Login Page$/) do
   @driver.get 'http://www.saucedemo.com'
 end
 
+Given(/^I am on the Product Page$/) do
+  @driver.get 'http://www.saucedemo.com/inventory.html'
+end
+
 When(/^I log in with valid credentials$/) do
-  @driver.find_element(css: "[data-test=username]").send_keys 'standard_user'
+  username = ENV['PERF_USERNAME'] ||= 'standard_user'
+  @driver.find_element(css: "[data-test=username]").send_keys username
+  @driver.find_element(css: "[data-test=password]").send_keys 'secret_sauce'
+  @driver.find_element(css: "[type=submit]").click
+end
+
+When(/^I log in as a performance regression user$/) do
+  @driver.find_element(css: "[data-test=username]").send_keys'performance_glitch_user'
   @driver.find_element(css: "[data-test=password]").send_keys 'secret_sauce'
   @driver.find_element(css: "[type=submit]").click
 end
@@ -26,20 +23,41 @@ Then(/^I should be logged in$/) do
   expect(@driver.current_url).to eq 'https://www.saucedemo.com/inventory.html'
 end
 
-When(/^I log in with invalid credentials$/) do
-  @driver.find_element(css: "[data-test='username']").send_keys 'locked_out_user'
-  @driver.find_element(css: "[data-test='password']").send_keys 'secret_sauce'
-  @driver.find_element(css: "[type='submit']").click
+Then(/^I should go to the inventory page$/) do 
+  @driver.get  "https://www.saucedemo.com/inventory.html"
 end
 
-Then(/^I should see an error$/) do
-  expect(@driver.find_elements(class: 'error-button').size).to be > 0
+Then(/^I check for sauce:network logs/) do
+  network = @driver.execute_script("sauce:log", {"type": "sauce:network"})
+  is_request_exists = false
+  network.each do |req|
+    if req['url'].include? "main.js"
+      is_request_exists = true
+    end
+  end
+  expect(is_request_exists).to be true
 end
 
-And(/^I have (\d+) items in the Cart$/) do |number|
-  number.to_i.times { @driver.find_element(class: 'add-to-cart-button').click }
+Then(/^I check for sauce:metrics logs/) do
+  metrics = @driver.execute_script("sauce:log", {"type": "sauce:metrics"})
+  pageLoadTime = metrics['domContentLoaded'] - metrics['navigationStart']
+  expect(pageLoadTime <=5).to be true
 end
 
-When(/^I remove (\d+) item$/) do |number|
-  number.times { @driver.find_element(class: 'remove-from-cart-button').click }
+Then(/^I check for sauce:timing logs/) do
+  timing = @driver.execute_script("sauce:log", {"type": "sauce:timing"})
+  expect(timing.include? "domLoading")
+end
+
+Then(/^I check for sauce:performanceLogs/) do
+  metrics = ["load", "speedIndex", "pageWeight", "pageWeightEncoded", "timeToFirstByte",
+             "timeToFirstInteractive", "firstContentfulPaint", "perceptualSpeedIndex", "domContentLoaded"]
+  performance = @driver.execute_script("sauce:log", {"type": "sauce:performance"})
+  metrics.each do |metric|
+    expect(performance.include? metric).to be true
+  end
+end
+
+Then(/^I check for sauce:hello custom commands/) do
+  hello = @driver.execute_script("sauce:hello", {"name": request.node.name })
 end
