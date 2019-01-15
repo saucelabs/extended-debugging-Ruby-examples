@@ -1,5 +1,5 @@
-## Ruby-Cucumber-Watir
-[![Travis Status](https://travis-ci.org/saucelabs-sample-test-frameworks/Ruby-Cucumber-Watir.svg?branch=master)](https://travis-ci.org/saucelabs-sample-test-frameworks/Ruby-Cucumber-Watir)
+## Ruby-Cucumber-Selenium
+
 
 This code is provided on an "AS-IS” basis without warranty of any kind, either express or implied, including without limitation any implied warranties of condition, uninterrupted use, merchantability, fitness for a particular purpose, or non-infringement. Your tests and testing environments may require you to modify this framework. Issues regarding this framework should be submitted through GitHub. For questions regarding Sauce Labs integration, please see the Sauce Labs documentation at https://wiki.saucelabs.com/. This framework is not maintained by Sauce Labs Support.
 
@@ -34,17 +34,16 @@ This code is provided on an "AS-IS” basis without warranty of any kind, either
 
 * Tests in Parallel:
 	```
-	$ rake parallel_run
+	$ rake
 	```
 * Specific Configuration (see `/spec/support/platforms.yml` file)
 	```
 	$ rake mac_sierra_chrome
 	```
-* Demo Mode
-	```
-	$ rake sauce_demo
-	```
-
+* Run Regression Tests:
+    ```
+    $ export PERF_USERNAME=performance_glitch_user && rake
+    ```
 ### Watch Your Tests Run
 
 [Sauce Labs Dashboard](https://app.saucelabs.com/dashboard/)
