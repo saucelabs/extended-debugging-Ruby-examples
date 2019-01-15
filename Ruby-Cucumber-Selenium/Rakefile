@@ -1,7 +1,7 @@
 require 'rspec/core/rake_task'
 
 # TODO - add in windows_8_ie once Sample App is fixed
-PLATFORMS = %w[windows_10_edge mac_sierra_chrome windows_7_ff]
+PLATFORMS = %w[windows_10_chrome mac_sierra_chrome mac_highsierra_chrome]
 
 PLATFORMS.each do |platform|
   desc "Run tests in parallel within suite using #{platform}"
