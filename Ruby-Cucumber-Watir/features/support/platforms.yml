@@ -1,0 +1,21 @@
+windows_10_chrome:
+  selenium_version: '3.4.0'
+  platform: Windows 10
+  browser_name: chrome
+  version: 'latest-1'
+windows_8_chrome:
+  selenium_version: '3.4.0'
+  platform: Windows 8
+  browser_name: chrome
+  version: 'latest'
+mac_sierra_chrome:
+  selenium_version: '3.4.0'
+  platform: macOS 10.12
+  browser_name: chrome
+  version: 'latest-1'
+mac_highsierra_chrome:
+  selenium_version: '3.4.0'
+  platform: macOS 10.13
+  browser_name: chrome
+  version: 'latest'
+  
