@@ -1,3 +1,7 @@
+Before do |scenario|
+  @feature_name = scenario.feature.name
+end
+
 Given(/^I am on the Login Page$/) do
   @driver.get 'http://www.saucedemo.com'
 end
@@ -58,6 +62,12 @@ Then(/^I check for sauce:performanceLogs/) do
   end
 end
 
-Then(/^I check for sauce:hello custom commands/) do
-  hello = @driver.execute_script("sauce:hello", {"name": request.node.name })
+Then(/^I assert the sauce:performance custom command identifies page load regressions/) do
+  performance = @driver.execute_script("sauce:performance", {"name":@feature_name, "metrics": ["load"] })
+  expect(performance).to be true
+end
+
+Then(/^I assert the sauce:performance custom command identifies pageWeight regressions/) do
+  performance = @driver.execute_script("sauce:performance", {"name":@feature_name, "metrics": ["pageWeight"] })
+  expect(performance).to be true
 end
