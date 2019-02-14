@@ -58,16 +58,16 @@ Then(/^I check for sauce:performanceLogs/) do
              "timeToFirstInteractive", "firstContentfulPaint", "perceptualSpeedIndex", "domContentLoaded"]
   performance = @driver.execute_script("sauce:log", {"type": "sauce:performance"})
   metrics.each do |metric|
-    expect(performance.include? metric).to be true
+    expect(performance["speedIndex"] < 1000).to be true
   end
 end
 
 Then(/^I assert the sauce:performance custom command identifies page load regressions/) do
   performance = @driver.execute_script("sauce:performance", {"name":@feature_name, "metrics": ["load"] })
-  expect(performance).to be true
+  expect(performance["result"] == "pass").to be true
 end
 
 Then(/^I assert the sauce:performance custom command identifies pageWeight regressions/) do
   performance = @driver.execute_script("sauce:performance", {"name":@feature_name, "metrics": ["pageWeight"] })
-  expect(performance).to be true
+  expect(performance["result"] == "pass").to be true
 end

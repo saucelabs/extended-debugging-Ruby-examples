@@ -8,5 +8,6 @@ Feature: Is Performance captured?
       Then I check for sauce:network logs
       Then I check for sauce:metrics logs
       Then I check for sauce:timing logs
+      Then I check for sauce:performanceLogs
       Then I assert the sauce:performance custom command identifies page load regressions
       Then I assert the sauce:performance custom command identifies pageWeight regressions
